@@ -5,15 +5,9 @@
 //  Created by 谭真 on 15/12/24.
 //  Copyright © 2015年 谭真. All rights reserved.
 //  version 3.2.9 - 2019.12.20
-//  更多信息，请前往项目的github地址：https://github.com/banchichen/TZImagePickerController
 
 /*
- 经过测试，比起xib的方式，把TZAssetCell改用纯代码的方式来写，滑动帧数明显提高了（约提高10帧左右）
- 
- 最初发现这个问题并修复的是@小鱼周凌宇同学，她的博客地址: http://zhoulingyu.com/
- 表示感谢~
- 
- 原来xib确实会导致性能问题啊...大家也要注意了...
+ 哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
  */
 
 #import <UIKit/UIKit.h>
