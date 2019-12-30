@@ -218,6 +218,7 @@
             imagePickerVc.showSelectedIndex = self.showSelectedIndexSwitch.isOn;
             imagePickerVc.isSelectOriginalPhoto = _isSelectOriginalPhoto;
             imagePickerVc.modalPresentationStyle = UIModalPresentationFullScreen;
+            imagePickerVc.allowPreview = NO;
             [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
                 self->_selectedPhotos = [NSMutableArray arrayWithArray:photos];
                 self->_selectedAssets = [NSMutableArray arrayWithArray:assets];

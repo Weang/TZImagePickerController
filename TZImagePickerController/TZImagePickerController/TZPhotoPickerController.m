@@ -622,13 +622,58 @@ static CGFloat itemMargin = 5;
             [self.navigationController pushViewController:gifPreviewVc animated:YES];
         }
     } else {
-        TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
-        photoPreviewVc.currentIndex = index;
-        photoPreviewVc.models = _models;
-        [self pushPhotoPrevireViewController:photoPreviewVc];
+        if (tzImagePickerVc.showPreviewWhenSingleSelect && tzImagePickerVc.maxImagesCount > 1) {
+            TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
+            photoPreviewVc.currentIndex = index;
+            photoPreviewVc.models = _models;
+            [self pushPhotoPrevireViewController:photoPreviewVc];
+        } else {
+            TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+            
+            [tzImagePickerVc showProgressHUD];
+            NSMutableArray *assets = [NSMutableArray array];
+            NSMutableArray *photos = [NSMutableArray array];
+            NSMutableArray *infoArr = [NSMutableArray array];
+            
+            __block BOOL havenotShowAlert = YES;
+            [TZImageManager manager].shouldFixOrientation = YES;
+            __block UIAlertController *alertView;
+            for (NSInteger i = 0; i < tzImagePickerVc.selectedModels.count; i++) {
+                TZAssetModel *model = tzImagePickerVc.selectedModels[i];
+                TZImageRequestOperation *operation = [[TZImageRequestOperation alloc] initWithAsset:model.asset completion:^(UIImage * _Nonnull photo, NSDictionary * _Nonnull info, BOOL isDegraded) {
+                    if (isDegraded) return;
+                    
+                    if (photo) {
+                        [photos addObject:photo]
+                    }
+                    
+                    if (info) {
+                        [infoArr addObjectt:info];
+                    }
+                    
+                    [assets addObject:model.asset];
+                    
+                    if (havenotShowAlert) {
+                        [tzImagePickerVc hideAlertView:alertView];
+                        [self didGetAllPhotos:photos assets:assets infoArr:infoArr];
+                    }
+                } progressHandler:^(double progress, NSError * _Nonnull error, BOOL * _Nonnull stop, NSDictionary * _Nonnull info) {
+                    // 如果图片正在从iCloud同步中,提醒用户
+                    if (progress < 1 && havenotShowAlert && !alertView) {
+                        [tzImagePickerVc hideProgressHUD];
+                        alertView = [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Synchronizing photos from iCloud"]];
+                        havenotShowAlert = NO;
+                        return;
+                    }
+                    if (progress >= 1) {
+                        havenotShowAlert = YES;
+                    }
+                }];
+                [self.operationQueue addOperation:operation];
+            }
+        }
     }
-}
-
+    
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
