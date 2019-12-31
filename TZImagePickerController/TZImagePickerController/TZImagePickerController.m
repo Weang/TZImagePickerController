@@ -262,7 +262,7 @@
 }
 
 - (void)configDefaultSetting {
-    self.showPreviewWhenSingleSelect = YES;
+    self.showPreview = YES;
     self.timeout = 15;
     self.photoWidth = 828.0;
     self.photoPreviewMaxWidth = 600;

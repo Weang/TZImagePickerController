@@ -622,7 +622,7 @@ static CGFloat itemMargin = 5;
             [self.navigationController pushViewController:gifPreviewVc animated:YES];
         }
     } else {
-        if (tzImagePickerVc.showPreviewWhenSingleSelect && tzImagePickerVc.maxImagesCount > 1) {
+        if (tzImagePickerVc.showPreview) {
             TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
             photoPreviewVc.currentIndex = index;
             photoPreviewVc.models = _models;

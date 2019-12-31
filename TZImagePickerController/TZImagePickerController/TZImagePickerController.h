@@ -136,7 +136,7 @@
 @property (assign, nonatomic) BOOL needFixComposition;
 
 /// 默认是YES，如果设置为NO，单选时不显示预览界面
-@property (assign, nonatomic) BOOL showPreviewWhenSingleSelect;
+@property (assign, nonatomic) BOOL showPreview;
 
 /// The photos user have selected
 /// 用户选中过的图片数组
